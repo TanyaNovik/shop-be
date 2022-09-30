@@ -79,9 +79,12 @@ functions:
           cors:
             origin: '*'
             headers: '*'
+plugins:
+  - serverless-auto-swagger
 
-
-
+custom:
+  autoswagger:
+    host: 'dggvutd4z0.execute-api.eu-west-1.amazonaws.com/dev'
 
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
