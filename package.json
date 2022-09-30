@@ -1,0 +1,26 @@
+{
+  "name": "shop-be",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {
+    "@babel/core": "^7.19.3",
+    "@babel/preset-env": "^7.19.3",
+    "babel-jest": "^29.1.2",
+    "jest": "^29.1.2"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TanyaNovik/shop-be.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TanyaNovik/shop-be/issues"
+  },
+  "homepage": "https://github.com/TanyaNovik/shop-be#readme"
+}
