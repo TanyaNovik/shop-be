@@ -25,6 +25,12 @@ provider:
   runtime: nodejs12.x
   stage: dev
   region: eu-west-1
+  environment:
+    PG_HOST:
+    PG_PORT: 5432
+    PG_DATABASE: products
+    PG_USERNAME: postgres
+    PG_PASSWORD:
 
 # you can add statements to the Lambda function's IAM Role here
 #  iam:
@@ -79,6 +85,16 @@ functions:
           cors:
             origin: '*'
             headers: '*'
+  createProduct:
+    handler: createProduct.createProduct
+    events:
+      - http:
+          path: products
+          method: post
+          cors:
+            origin: '*'
+            headers: '*'
+
 plugins:
   - serverless-auto-swagger
 
