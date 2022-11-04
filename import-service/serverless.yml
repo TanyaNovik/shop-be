@@ -19,6 +19,9 @@ provider:
             - 's3:*'
           Resource:
             - 'arn:aws:s3:::uploaded-shop/*'
+        - Effect: Allow
+          Action: "sqs:*"
+          Resource: 'arn:aws:sqs:eu-west-1:833686642500:catalogItemsQueue'
 
 functions:
   importProductsFile:

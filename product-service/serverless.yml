@@ -31,36 +31,33 @@ provider:
     PG_DATABASE: products
     PG_USERNAME: postgres
     PG_PASSWORD:
+    SNS_ARN:
+      Ref: SNSTopic
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action: "sns:*"
+          Resource:
+            Ref: SNSTopic
 
-# you can add statements to the Lambda function's IAM Role here
-#  iam:
-#    role:
-#      statements:
-#        - Effect: "Allow"
-#          Action:
-#            - "s3:ListBucket"
-#          Resource: { "Fn::Join" : ["", ["arn:aws:s3:::", { "Ref" : "ServerlessDeploymentBucket" } ] ]  }
-#        - Effect: "Allow"
-#          Action:
-#            - "s3:PutObject"
-#          Resource:
-#            Fn::Join:
-#              - ""
-#              - - "arn:aws:s3:::"
-#                - "Ref" : "ServerlessDeploymentBucket"
-#                - "/*"
+resources:
+  Resources:
+    SQSQueue:
+      Type: AWS::SQS::Queue
+      Properties:
+        QueueName: catalogItemsQueue
+    SNSTopic:
+      Type: AWS::SNS::Topic
+      Properties:
+        TopicName: createProductTopic
+    SNSSubscription:
+      Type: AWS::SNS::Subscription
+      Properties:
+        Endpoint: tanya.noovik@gmail.com
+        Protocol: email
+        TopicArn: "arn:aws:sns:eu-west-1:833686642500:createProductTopic"
 
-# you can define service wide environment variables here
-#  environment:
-#    variable1: value1
-
-# you can add packaging information here
-#package:
-#  patterns:
-#    - '!exclude-me.js'
-#    - '!exclude-me-dir/**'
-#    - include-me.js
-#    - include-me-dir/**
 
 functions:
   getProductsList:
@@ -94,6 +91,15 @@ functions:
           cors:
             origin: '*'
             headers: '*'
+  catalogBatchProcess:
+    handler: catalogBatchProcess.catalogBatchProcess
+    events:
+      - sqs:
+          batchSize: 2
+          arn:
+            Fn::GetAtt:
+              - SQSQueue
+              - Arn
 
 plugins:
   - serverless-auto-swagger
